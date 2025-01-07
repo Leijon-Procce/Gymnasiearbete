@@ -1,0 +1,7 @@
+peak = fittingFunctions.perform_Gaussian_fit(x=wavelength, 
+                                              y=counts,      
+                                              region_start=___,   # bins where to start fitting
+                                              region_stop=___,    # bins where to stop fitting
+                                              mu_guess=___,       # guess for the position of peak centroid
+                                              A_guess=_____,       # guess for the amplitude of the peak
+                                              sigma_guess=1)      # guess for the sigma
