@@ -1,0 +1,20 @@
+# Specify the absolute path for the hydrogen spectrum inside quotation marks:
+df = pd.read_csv("/Users/absolute path", 
+    sep=";",    # Here we specify that values are seperated by semicolons.
+    header=6,   # This skips the first rows of the file containing information about the acquisiton settings
+                 
+    # Check if your spectrum txt file contains of 4 or 5 coulumns. If you have 5 coulumns use the adapted 'names'-array the line below.        
+    # names=["Wavelength", "Count sample", "Background", "Reference"])
+    names=["Wavelength", "Count sample", "Background", "Reference", "Corrected for dark"])
+
+df = df.stack().str.replace(',','.').unstack() # Turns the  ',' in the data frame to a point
+data = df.to_numpy() #Converts the data frame into an Numpy array
+wavelength = np.array(list(data[:, 0]), dtype=float) # Turns the Numpy 2d array with the wavelengths in a regular 2D float array
+counts = np.array(list(data[:, 1]), dtype=float) # If you have saved 5 coulumns, use the 'Corrected for dark values' by changing the '1' to a '4'.
+ 
+plt.figure()
+plt.plot(wavelength, counts)
+plt.show()
+plt.title("Hydrogen")      # set title of the plot
+plt.xlabel("Wavelength")   # set label for x-axis 
+plt.ylabel("Counts")       # set label for Y-axis
