@@ -1,0 +1,97 @@
+h2_wavelength_V6_kalibrerad_1 = ([peak100_V6_1.mu, peak100_V6_2.mu, peak100_V6_3.mu]) #wavelenghts from Bilaga 3 (OBS! after calibration)
+
+# Vakuum våglängder
+
+factor = 1.00029
+p = [x * factor for x in h2_wavelength_V6_kalibrerad_1] #factors in vacuum
+
+
+#Rydbergs konstanter
+
+rydbergskonstant_2_3 = 1000000000 * (1/p[0]) * (1/(5/36))
+scientific_notation_2_3="{:e}".format(rydbergskonstant_2_3)
+
+
+rydbergskonstant_2_4 = 1000000000 * (1/p[1]) * (1/(3/16))
+scientific_notation_2_4="{:e}".format(rydbergskonstant_2_4)
+
+
+rydbergskonstant_2_5 = 1000000000 * (1/p[2]) * (1/(21/100))
+scientific_notation_2_5="{:e}".format(rydbergskonstant_2_5)
+
+rydbergskonstant_medel = (rydbergskonstant_2_3+rydbergskonstant_2_4+rydbergskonstant_2_5)/3
+scientific_notation_medel="{:e}".format(rydbergskonstant_medel)
+
+rydbergskonstant_facit_1 = 1.096775832e+07
+rydbergskonstant_facit = 10967758.32
+
+#Differnce between calculated and theoretical
+difference_2_3 = rydbergskonstant_2_3 - rydbergskonstant_facit
+
+difference_2_4 = rydbergskonstant_2_4 - rydbergskonstant_facit
+
+difference_2_5 = rydbergskonstant_2_5 - rydbergskonstant_facit
+
+difference_medel = rydbergskonstant_medel - rydbergskonstant_facit
+
+#Hur mycket stämmer? Function for number of correct numbers. 
+
+def count_same_digits_until_mismatch(num1, num2):
+    # Convert the floats to strings
+    str1 = str(num1)
+    str2 = str(num2)
+
+    # Split the numbers into integer and fractional parts
+    int_part1, frac_part1 = str1.split('.') if '.' in str1 else (str1, '')
+    int_part2, frac_part2 = str2.split('.') if '.' in str2 else (str2, '')
+
+    # Ensure the integer parts are of equal length by padding with zeros if necessary
+    max_int_length = max(len(int_part1), len(int_part2))
+    int_part1 = int_part1.zfill(max_int_length)
+    int_part2 = int_part2.zfill(max_int_length)
+
+    # Ensure the fractional parts are of equal length by padding with zeros if necessary
+    max_frac_length = max(len(frac_part1), len(frac_part2))
+    frac_part1 = frac_part1.ljust(max_frac_length, '0')
+    frac_part2 = frac_part2.ljust(max_frac_length, '0')
+
+    # Combine the integer and fractional parts back into one string without the decimal point
+    str1 = int_part1 + frac_part1
+    str2 = int_part2 + frac_part2
+
+    # Initialize a counter
+    count = 0
+
+    # Compare digits in the same positions
+    for digit1, digit2 in zip(str1, str2):
+        if digit1 == digit2:
+            count += 1
+        else:
+            break
+
+    return count
+
+#performs function above on all three lines
+
+result_2_3 = count_same_digits_until_mismatch(rydbergskonstant_2_3, rydbergskonstant_facit)
+
+result_2_4 = count_same_digits_until_mismatch(rydbergskonstant_2_4, rydbergskonstant_facit)
+
+result_2_5 = count_same_digits_until_mismatch(rydbergskonstant_2_5, rydbergskonstant_facit)
+
+result_medel = count_same_digits_until_mismatch(rydbergskonstant_medel, rydbergskonstant_facit)
+
+
+#Listor gör det lättare att läsa
+
+rk_komplett_2_3 = [scientific_notation_2_3, difference_2_3, result_2_3]
+rk_komplett_2_4 = [scientific_notation_2_4, difference_2_4, result_2_4]
+rk_komplett_2_5 = [scientific_notation_2_5, difference_2_5, result_2_5]
+
+rk_komplett_medel = [scientific_notation_medel, difference_medel, result_medel]
+
+rk_komplett_facit = [rydbergskonstant_facit_1]
+
+#Gives the table of results
+
+pd.DataFrame ([rk_komplett_facit, rk_komplett_2_3, rk_komplett_2_4, rk_komplett_2_5, rk_komplett_medel], columns=['Rydbergs konstant, vår', 'Diff', 'Hur mycket stämmer?'], index=['Facit','2-3','2-4','2-5','Medel'])
