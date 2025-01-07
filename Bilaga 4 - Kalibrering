@@ -1,0 +1,18 @@
+x = [peak1000_CALB_1.mu, peak1000_CALB_2.mu, peak1000_CALB_3.mu, peak100_CALB_Cd_1.mu, peak100_CALB_Cd_2.mu, peak100_CALB_Cd_3.mu, peak1000_CALB_4.mu, peak1000_CALB_5.mu, peak1000_CALB_6.mu, peak100_CALB_Ar_1.mu, peak100_CALB_Ar_2.mu, peak100_CALB_Ar_3.mu, peak100_CALB_Ar_4.mu, peak100_CALB_Ar_5.mu] #wavelenghts from Bilaga 3
+lamb = [365.01580, 404.65650, 435.83350, 467.81493, 479.99123, 508.58217, 546.07500, 576.96100, 579.06700, 696.5431, 706.7218, 738.3980, 763.5106, 826.4522] #theoretical wavelengths
+
+
+
+x1 = [np.round(i,2) for i in x]
+
+p = np.polyfit(x, lamb, 4)
+
+print("Det här är koefficienterna på formen: \nVåglängd = x4pixelpixelpixelpixel + x3pixelpixelpixel + x2pixelpixel +  x1pixel + intercept \nAlltså med x4 termen först och intercept sist.")
+print(*p, sep = "\n")
+
+plt.figure()
+plt.plot(x, lamb, 'bo-')
+plt.show()
+plt.title(f"Calibration:{x1}")      # set title of the plot
+plt.xlabel("Pixel")   # set label for x-axis 
+plt.ylabel("Våglängd")       # set label for Y-axis
