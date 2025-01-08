@@ -1,0 +1,10 @@
+# Given constants and values
+atomic_mass = 1.6735575e−27 kg  # in kg
+delta_f = ___  #FWHM in Hz
+f_0 = ___  # Spectral line peak in Hz
+c = 3e8  # speed of light in m/s
+k = 1.380649e-23  # Boltzmann constant in J/K
+
+# Formula to calculate temperature T
+T = (atomic_mass * (delta_f**2) * (c**2)) / (8 * k * (f_0**2) * math.log(2))
+print(T)
