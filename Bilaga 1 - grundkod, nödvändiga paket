@@ -8,6 +8,8 @@ import numpy as np
 
 import pandas as pd 
 
+import math
+
 # Package for plotting; 
 # first line makes plots interactive, 
 # second actually loads the library
